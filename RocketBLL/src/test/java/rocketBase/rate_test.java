@@ -4,30 +4,24 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import java.util.ArrayList;
-
-import rocketDomain.RateDomainModel;
+import exceptions.RateException;
 
 public class rate_test {
 
+	
 	@Test
-	public void Rate_test() {
-		ArrayList <RateDomainModel> allRates= RateDAL.getAllRates();
-			System.out.println("Rate's size: "+ allRates.size());
-		assert(allRates.size()>0);
-		
-		assertEquals(allRates.get(0).getdInterestRate(), 1.00, 0.03);
-		assertEquals(allRates.get(1).getdInterestRate(), 1.50,  0.03);
-		assertEquals(allRates.get(2).getdInterestRate(), 2.00,  0.03);
-		assertEquals(allRates.get(3).getdInterestRate(), 2.50, 0.03);
-		assertEquals(allRates.get(4).getdInterestRate(), 3.00,  0.03);	
-		
+	public void Interest_rate_test() throws RateException {
+		assertEquals(RateBLL.getRate(600), 8, 0.01);
+		assertEquals(RateBLL.getRate(675), 7, 0.01);
+		assertEquals(RateBLL.getRate(750), 6.5, 0.01);
+		assertEquals(RateBLL.getRate(795), 6, 0.01);
+		assertEquals(RateBLL.getRate(810), 5.7, 0.01);
 	}
-	@Test
-	public void test() {
-		
-		ArrayList <RateDomainModel> rate= RateDAL.getAllRates();
-			System.out.println("Rate's size: "+ rate.size());
-		assert(rate.size()>0);
+	
+	
+	@Test (expected = RateException.class)
+	public void Interest_rate_test2() throws RateException {
+		RateBLL.getRate(500);
 	}
+
 }
